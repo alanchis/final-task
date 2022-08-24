@@ -1,3 +1,9 @@
+import os
+import sqlalchemy
+from flask import Flask
+
+app = Flask(__name__)
+
 def init_unix_connection_engine(db_config):
     db_user = os.environ["DB_USER"]
     db_pass = os.environ["DB_PASS"]
@@ -23,3 +29,16 @@ def init_unix_connection_engine(db_config):
     
     pool.dialect.description_encoding = None
     return pool
+
+@app.route('/')
+def main():
+
+    db = init_unix_connection_engine(pool_size=5, max_overflow=2, pool_timeout=30, pool_recycle=1800)
+
+    with db.connect() as conn:
+        result = conn.execute().fetchall()
+
+    return str(result)
+
+if __name__ == '__main__':
+    app.run(host='127.0.0.1', port=8080, debug=True)
