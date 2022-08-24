@@ -1,0 +1,62 @@
+steps:
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'builder'
+  args: 
+  - build
+  - -t
+  - ${_IMAGE}
+  - .
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'pusher'
+  args: 
+  - push
+  - ${_IMAGE}
+  waitFor: ['builder']
+
+- name: python
+  id: 'installer'
+  entrypoint: pip
+  args: 
+  - install
+  - -r
+  - requirements.txt
+  - --user
+  waitFor: ['pusher']
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'deployer'
+  entrypoint: gcloud
+  args: 
+  - run
+  - deploy
+  - 'final-app'
+  - --image
+  - ${_IMAGE}
+  - --region
+  - europe-west1
+  - --platform
+  - managed
+  - --allow-unauthenticated
+  - --port
+  - '8080'
+  - --max-instances
+  - '2'
+  env:
+  - 'INSTANCE_CONNECTION_NAME='
+  - 'DB_USER=xxx'
+  - 'DB_PASS=xxx'
+  - 'DB_NAME=mydb'
+  waitFor: ['installer']
+
+availableSecrets:
+secretManager:
+- versionName: projects/myProject/secrets/secrettest/versions/latest
+env: 'TEST'
+
+substitutions:
+  _IMAGE: gcr.io/${PROJECT_ID}/app
+
+images:
+- ${_IMAGE}
