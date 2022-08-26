@@ -35,7 +35,7 @@ steps:
   - --image
   - ${_IMAGE}
   - --region
-  - europe-west1
+  - us-west4
   - --platform
   - managed
   - --allow-unauthenticated
@@ -44,7 +44,7 @@ steps:
   - --max-instances
   - '2'
   - --set-env-vars
-  - 'DB_USER=$$USER, DB_PASS=$$PASS, DB_NAME=rookie, CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test-nuka-cola'
+  - 'DB_USER=$$USER, DB_PASS=$$PASS, DB_NAME=prueba, CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test'
   secretEnv: ['PASS', 'USER']
   waitFor: ['installer']
 
