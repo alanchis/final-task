@@ -44,16 +44,16 @@ steps:
   - --max-instances
   - '2'
   - --set-env-vars
-  - 'DB_USER=$user, DB_PASS=$db_pass, DB_NAME=rookie, CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test-nuka-cola'
-  secretEnv: ['db_pass', 'user']
+  - 'DB_USER=$$USER, DB_PASS=$$PASS, DB_NAME=rookie, CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test-nuka-cola'
+  secretEnv: ['PASS', 'USER']
   waitFor: ['installer']
 
 availableSecrets:
   secretManager:
   - versionName: projects/$PROJECT_ID/secrets/user/versions/latest
-    env: user
+    env: USER
   - versionName: projects/$PROJECT_ID/secrets/db_pass/versions/latest
-    env: db_pass
+    env: PASS
 
 
 substitutions:
