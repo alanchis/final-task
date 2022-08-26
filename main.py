@@ -35,7 +35,7 @@ def main():
     db = init_unix_connection_engine()
 
     with db.connect() as conn:
-        result = conn.execute().fetchall()
+        result = conn.execute("SELECT * from land_registry_price_paid_uk where postcode = 'E15 3AR';").fetchall()
 
     return str(result)
 
