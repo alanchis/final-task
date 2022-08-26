@@ -15,15 +15,15 @@ steps:
   - ${_IMAGE}
   waitFor: ['builder']
 
-- name: python
-  id: 'installer'
-  entrypoint: pip
-  args: 
-  - install
-  - -r
-  - requirements.txt
-  - --user
-  waitFor: ['pusher']
+# - name: python
+#   id: 'installer'
+#   entrypoint: pip
+#   args: 
+#   - install
+#   - -r
+#   - requirements.txt
+#   - --user
+#   waitFor: ['pusher']
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'deployer'
@@ -46,13 +46,13 @@ steps:
   - --set-env-vars
   - 'DB_USER=$$USER, DB_PASS=$$PASS, DB_NAME=prueba, CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test'
   secretEnv: ['PASS', 'USER']
-  waitFor: ['installer']
+  waitFor: ['pusher']
 
 availableSecrets:
   secretManager:
-  - versionName: projects/$PROJECT_ID/secrets/user/versions/1
+  - versionName: projects/$PROJECT_ID/secrets/user/versions/latest
     env: USER
-  - versionName: projects/$PROJECT_ID/secrets/db_pass/versions/1
+  - versionName: projects/$PROJECT_ID/secrets/db_pass/versions/latest
     env: PASS
 
 
