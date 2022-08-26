@@ -44,7 +44,7 @@ steps:
   - --max-instances
   - '2'
   - --set-env-vars
-  - 'DB_USER=postgres, DB_PASS=postgress, DB_NAME=prueba, CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test'
+  - 'DB_USER=postgres, DB_PASS=password, DB_NAME=prueba, CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test'
   # - 'DB_USER=$$USER, DB_PASS=$$PASS, DB_NAME=prueba, CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test'
   secretEnv: ['PASS', 'USER']
   waitFor: ['installer']
