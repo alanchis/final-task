@@ -27,24 +27,10 @@ steps:
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'deployer'
-  entrypoint: gcloud
-  args: 
-  - run
-  - deploy
-  - 'final-app'
-  - --image
-  - ${_IMAGE}
-  - --region
-  - europe-west1
-  - --platform
-  - managed
-  - --allow-unauthenticated
-  - --port
-  - '8080'
-  - --max-instances
-  - '2'
-  - --set-env-vars
-  - 'DB_USER=$$USER, DB_PASS=$$PASS, DB_NAME=rookie, CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test-nuka-cola'
+  entrypoint: bash
+  args:
+  - -c 
+  - 'run deploy final-app --image ${_IMAGE} --region europe-west1 --platform managed --allow-unauthenticated --port 8080 --max-instances '2' --set-env-vars=DB_USER=$$USER,DB_PASS=$$PASS,DB_NAME=rookie,CLOUD_SQL_CONNECTION_NAME=$PROJECT_ID:us-west4:test-nuka-cola'
   secretEnv: ['PASS', 'USER']
   waitFor: ['installer']
 
