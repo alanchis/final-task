@@ -43,11 +43,8 @@ steps:
   - '8080'
   - --max-instances
   - '2'
-  env:
-  - 'INSTANCE_CONNECTION_NAME=$PROJECT_ID:us-west4:test-nuka-cola'
-  - 'DB_USER=$$user'
-  - 'DB_PASS=$$db_pass'
-  - 'DB_NAME=rookie'
+  - --set-env-vars
+  - 'DB_USER=$$user, DB_PASS=$$db_pass, DB_NAME=rookie, INSTANCE_CONNECTION_NAME=$PROJECT_ID:us-west4:test-nuka-cola'
   secretEnv: ['db_pass', 'user']
   waitFor: ['installer']
 
